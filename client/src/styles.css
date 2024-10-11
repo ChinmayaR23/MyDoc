@@ -27,6 +27,32 @@
     display: flex;
     justify-content: center;
   }
+  /* Global Styles */
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .whatsapp-share-button {
+    background-color: #25D366;
+    color: #FFF;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 10px 0;
+  }
+  
+  .whatsapp-share-button:hover {
+    background-color: #20b358;
+  }
+  
+  .editor-wrapper {
+    margin-top: 20px;
+  }
   
   /* Toolbar Styles */
   .container .ql-toolbar.ql-snow {
