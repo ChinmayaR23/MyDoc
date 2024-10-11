@@ -3,7 +3,7 @@ import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { io } from "socket.io-client";
 import { useParams } from "react-router-dom";
-import "./TextEditor.css"; // Import CSS file for custom styles
+import "./Texteditor.css"; // Import CSS file for custom styles
 
 const SAVE_INTERVAL_MS = 2000;
 const TOOLBAR_OPTIONS = [
@@ -25,7 +25,7 @@ export default function TextEditor() {
 
   // Establish the socket connection
   useEffect(() => {
-    const s = io("https://beautiful-happiness-production.up.railway.app"); // Add 'https://' for a valid URL
+    const s = io("https://beautiful-happiness-production.up.railway.app");
     setSocket(s);
 
     return () => {
@@ -35,7 +35,7 @@ export default function TextEditor() {
 
   // Load the document from the server
   useEffect(() => {
-    if (socket == null || quill == null) return;
+    if (!socket || !quill) return;
 
     socket.once("load-document", (document) => {
       quill.setContents(document);
@@ -47,20 +47,18 @@ export default function TextEditor() {
 
   // Auto-save document changes
   useEffect(() => {
-    if (socket == null || quill == null) return;
+    if (!socket || !quill) return;
 
     const interval = setInterval(() => {
       socket.emit("save-document", quill.getContents());
     }, SAVE_INTERVAL_MS);
 
-    return () => {
-      clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   }, [socket, quill]);
 
   // Listen for incoming changes and update the editor
   useEffect(() => {
-    if (socket == null || quill == null) return;
+    if (!socket || !quill) return;
 
     const handler = (delta) => {
       quill.updateContents(delta);
@@ -74,7 +72,7 @@ export default function TextEditor() {
 
   // Emit changes made by the user
   useEffect(() => {
-    if (socket == null || quill == null) return;
+    if (!socket || !quill) return;
 
     const handler = (delta, oldDelta, source) => {
       if (source !== "user") return;
@@ -89,7 +87,7 @@ export default function TextEditor() {
 
   // Initialize the Quill editor
   const wrapperRef = useCallback((wrapper) => {
-    if (wrapper == null) return;
+    if (!wrapper) return;
 
     wrapper.innerHTML = "";
     const editor = document.createElement("div");
@@ -105,27 +103,21 @@ export default function TextEditor() {
 
   // Share via WhatsApp function
   const shareViaWhatsApp = () => {
-    if (!quill) return;
-    const editorContent = quill.getText(); // Get plain text from the editor
-    const encodedContent = encodeURIComponent(editorContent);
-    const whatsappURL = `https://wa.me/?text=${encodedContent}`;
+    const currentURL = window.location.href; // Get the current URL
+    const message = `Check out this document: ${currentURL}`; // Message to share
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappURL = `whatsapp://send?text=${encodedMessage}`;
 
-    // Open the WhatsApp sharing link in a new tab
+    // Open the WhatsApp desktop app or web
     window.open(whatsappURL, "_blank");
   };
 
   return (
     <div className="container">
-      <div className="ql-toolbar ql-snow">
-        {/* Add the Share via WhatsApp button */}
-        <button
-          onClick={shareViaWhatsApp}
-          className="whatsapp-share-button"
-        >
-          Share via WhatsApp
-        </button>
-      </div>
       <div className="editor-wrapper" ref={wrapperRef}></div>
+      <button onClick={shareViaWhatsApp} className="whatsapp-share-button">
+        Share via WhatsApp
+      </button>
     </div>
   );
 }

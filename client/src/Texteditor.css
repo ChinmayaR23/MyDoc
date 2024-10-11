@@ -1,0 +1,37 @@
+/* Container Styles */
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    padding: 20px;
+  }
+  
+  /* Editor Styles */
+  .editor-wrapper {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+  }
+  
+  /* WhatsApp Share Button */
+  .whatsapp-share-button {
+    position: fixed;
+    top: 9%;
+    left :160px;
+    transform: translateY(-50%);
+    background-color: #25D366;
+    color: #FFF;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    z-index: 1000;
+  }
+  
+  .whatsapp-share-button:hover {
+    background-color: #20b358;
+  }
+  
