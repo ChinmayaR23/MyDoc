@@ -2,7 +2,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const Document = require("./Document");
 const io = require("socket.io")(3001, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://my-doc-self.vercel.app/",
     methods: ["GET", "POST"],
   },
 });
